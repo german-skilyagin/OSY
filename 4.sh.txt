@@ -1,0 +1,12 @@
+#!/bin/bash
+if [[ $1 == "--help" || $1 == "-h" ]]
+then
+    echo "Displays a list of unique ip addresses for which there were ERROR or FATAL level entries"
+    exit
+fi
+if [[ -z $1 || ! -f $1 ]]
+then 
+    echo "Wrong way"
+    exit
+fi
+awk -F"|" '$1 ~ "ERROR" || $1 ~ "FATAL" { gsub (" ", "", $3); print $3 }  ' "$1"  | sort | uniq
